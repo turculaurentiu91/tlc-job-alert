@@ -1,9 +1,9 @@
 <?php namespace TlcJobAlert;
 
 class Main {
-  private $settings;
+  private $adminPage;
 
   public function __construct() {
-    $this->settings = new Settings();
+    $this->adminPage = new AdminPage();
   }
 }

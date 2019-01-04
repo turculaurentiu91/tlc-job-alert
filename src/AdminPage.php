@@ -1,6 +1,6 @@
 <?php namespace TlcJobAlert;
 
-class Settings {
+class AdminPage {
 
   public function __construct() {
     add_action('admin_menu', array($this, 'add_submenu'));
@@ -12,13 +12,13 @@ class Settings {
       __("TLC Job Alert", "tlc-job-alert"),
       __("TLC Job Alert", "tlc-job-alert"),
       'manage_options',
-      'tlc-job-ealert-settings',
-      array($this, 'render_settings_page')
+      'tlc-job-ealert-admin',
+      array($this, 'render_admin_page')
     );
   }
 
-  public function render_settings_page()
+  public function render_admin_page()
   {
-    include "templates/settings-menu.php";
+    include "templates/admin-menu.php";
   }
 }
