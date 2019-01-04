@@ -1,17 +1,5 @@
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
-  state: {
-    activePage: 'subscriptions',
-  },
-  getters: {
-    activePage: state => state.activePage,
-  },
-  mutations: {
-    setPage: (state, page) => state.activePage = page,
-  },
-});
-
 Vue.component('tab-button', {
   template: '#tab-button-template',
   props: {
@@ -27,6 +15,18 @@ Vue.component('tab-button', {
     ...Vuex.mapMutations([
       'setPage',
     ]),
+  },
+});
+
+const store = new Vuex.Store({
+  state: {
+    activePage: 'subscriptions',
+  },
+  getters: {
+    activePage: state => state.activePage,
+  },
+  mutations: {
+    setPage: (state, page) => state.activePage = page,
   },
 });
 
