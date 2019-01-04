@@ -1,0 +1,19 @@
+{
+    "name": "tlc/job-alert",
+    "description": "A wordpress plugin",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Turcu Laurentiu",
+            "email": "turculaurentiu91@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+          "TlcJobAlert\\":"src/"
+        }
+      },
+    "require": {
+        "gabordemooij/redbean": "^5.2"
+    }
+}
