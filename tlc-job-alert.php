@@ -10,3 +10,5 @@ Text Domain: tlc-job-alerts
 */
 
 require 'vendor/autoload.php';
+
+$tlcJobAlert = new TlcJobAlert\Main();
