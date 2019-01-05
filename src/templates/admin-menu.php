@@ -20,4 +20,5 @@
   </script>
 </div>
 
-<script src="<?= plugins_url('assets/js/admin-menu.js', TLC_JOB_ALERT_PLUGIN_DIR) ?>"></script>
+
+<script src="<?= TLC_JOB_ALERT_PATH_URL . 'assets/js/admin-menu.js' ?>"></script>
