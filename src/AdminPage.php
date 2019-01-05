@@ -19,6 +19,6 @@ class AdminPage {
 
   public function render_admin_page()
   {
-    include "templates/admin-menu.php";
+    echo(Helper::getTemplate('admin-menu'));
   }
 }
