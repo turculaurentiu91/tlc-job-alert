@@ -1,4 +1,5 @@
 <?php
+
   // --DEFINE LOCATIONS
   $locTerms = get_terms(array('taxonomy' => 'job_listing_region', 'hide_empty' => false));
   $locations = null;
@@ -57,7 +58,7 @@
 
   <div>
     <label for="tlc-location"> <?= __("Location", "tlc-job-alert") ?> </label>
-    <select id="tlc-location" name="tlc-location" multiple="multiple" class="tlc-select" style="width: 100%"
+    <select id="tlc-location" name="tlc-location[]" multiple="multiple" class="tlc-select" style="width: 100%"
     <?= $locations ? "" : "disabled" ?> >
       <?php foreach($locations as $loc): ?>
       <option value="<?= $loc ?>" > <?= $loc ?> </option>
@@ -67,7 +68,7 @@
 
   <div>
     <label for="tlc-discipline"> <?= __("Disciplines", "tlc-job-alert") ?> </label>
-    <select id="tlc-discipline" name="tlc-discipline" multiple="multiple" class="tlc-select" style="width: 100%"
+    <select id="tlc-discipline" name="tlc-discipline[]" multiple="multiple" class="tlc-select" style="width: 100%"
     <?= $disciplines ? "" : "disabled" ?> >
       <?php foreach($disciplines as $discipline): ?>
       <option value="<?= $discipline ?>" > <?= $discipline ?> </option>
@@ -77,7 +78,7 @@
 
   <div>
     <label for="tlc-contract-type"> <?= __("Contract Type", "tlc-job-alert") ?> </label>
-    <select id="tlc-contract-type" name="tlc-contract-type" multiple="multiple" class="tlc-select" style="width: 100%"
+    <select id="tlc-contract-type" name="tlc-contract-type[]" multiple="multiple" class="tlc-select" style="width: 100%"
     <?= $contractTypes ? "" : "disabled" ?> >
       <?php foreach($contractTypes as $contractType): ?>
       <option value="<?= $contractType ?>" > <?= $contractType ?> </option>
