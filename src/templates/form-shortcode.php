@@ -1,5 +1,42 @@
 <?php
 
+  use \RedBeanPHP\R as R;
+  
+  if (isset($_POST['tlc-name'])) {
+    $job_watch = R::dispense('jobwatch');
+    $job_watch->name = $_POST['tlc-name'];
+    $job_watch->email = $_POST['tlc-email'];
+    $job_watch->keywords = $_POST['tlc-keyword'];
+    $job_watch->frequency = $_POST['tlc-frequency'];
+
+    if (isset($_POST['tlc-location'])) {
+      foreach ($_POST['tlc-location'] as $key => $value) {
+       $location = R::dispense('joblocation');
+       $location->name = $value;
+       $job_watch->ownJoblocationList[] = $location; 
+      }
+    }
+
+    if (isset($_POST['tlc-discipline'])) {
+      foreach ($_POST['tlc-discipline'] as $key => $value) {
+       $discipline = R::dispense('jobdiscipline');
+       $discipline->name = $value;
+       $job_watch->ownJobdisciplineList[] = $discipline; 
+      }
+    }
+
+    if (isset($_POST['tlc-contract-type'])) {
+      foreach ($_POST['tlc-contract-type'] as $key => $value) {
+       $contracttype = R::dispense('jobcontracttype');
+       $contracttype->name = $value;
+       $job_watch->ownJobcontracttypeList[] = $contracttype; 
+      }
+    }
+
+    R::store($job_watch);
+
+  }
+
   // --DEFINE LOCATIONS
   $locTerms = get_terms(array('taxonomy' => 'job_listing_region', 'hide_empty' => false));
   $locations = null;
