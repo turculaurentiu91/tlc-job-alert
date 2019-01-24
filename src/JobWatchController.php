@@ -51,6 +51,10 @@ class JobWatchController {
     );
   }
 
+  public function premission_check() {
+    return true;
+  }
+
   public function get_items($request) {
     $data = R::findAll('jobwatch');
     return new \WP_REST_Response($data, 200);
