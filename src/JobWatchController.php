@@ -18,12 +18,12 @@ class JobWatchController {
         array(
           'methods' => \WP_REST_Server::READABLE,
           'callback' => array($this, 'get_items'),
-          'permission_callback' => array($this, 'permission_check'),
+          //'permission_callback' => array($this, 'permission_check'),
         ),
         array(
           'methods' => \WP_REST_Server::CREATABLE,
           'callback' => array($this, 'create_item'),
-          'permission_callback' => array($this, 'permission_check'),
+          //'permission_callback' => array($this, 'permission_check'),
         ),
       )
     );
@@ -35,17 +35,17 @@ class JobWatchController {
         array(
           'methods' => \WP_REST_Server::READABLE,
           'callback' => array($this, 'get_item'),
-          'premission_callback' => array($this, 'permission_check'),
+          //'premission_callback' => array($this, 'permission_check'),
         ),
         array(
           'methods' => \WP_REST_Server::EDITABLE,
           'callback' => array($this, 'edit_item'),
-          'permission_callback' => array($this, 'permission_check'),
+          //'permission_callback' => array($this, 'permission_check'),
         ),
         array(
           'methods' => \WP_REST_Server::DELETABLE,
           'callback' => array($this, 'delete_item'),
-          'permission_callback' => array($this, 'permission_check'),
+          //'permission_callback' => array($this, 'permission_check'),
         ),
       )
     );
