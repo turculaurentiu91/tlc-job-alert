@@ -14,6 +14,7 @@
         }
       },
     "require": {
-        "gabordemooij/redbean": "^5.2"
+        "gabordemooij/redbean": "^5.2",
+        "rakit/validation": "^1.1"
     }
 }
