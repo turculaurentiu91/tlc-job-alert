@@ -56,7 +56,8 @@ class JobWatchController {
   }
 
   public function get_items($request) {
-    $data = R::findAll('jobwatch');
+    // For some reason Redbeans returns an associative array, so conversion to indexed is needed
+    $data = array_values(R::findAll('jobwatch'));
     return new \WP_REST_Response($data, 200);
   }
 
