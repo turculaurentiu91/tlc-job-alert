@@ -1,4 +1,4 @@
-<?php namespace Tlc;
+<?php namespace TlcJobAlert;
 
 use \RedBeanPHP\R as R;
 
