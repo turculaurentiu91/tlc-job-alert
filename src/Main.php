@@ -5,6 +5,7 @@ use \RedBeanPHP\R as R;
 class Main {
   private $adminPage;
   private $shortcodes;
+  private $jobWatchController;
 
   public function __construct() {
     R::setup(
@@ -15,5 +16,6 @@ class Main {
     
     $this->adminPage = new AdminPage();
     $this->shortcodes = new Shortcodes();
+    $this->jobWatchController = new JobWatchController();
   }
 }
