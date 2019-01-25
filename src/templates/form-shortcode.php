@@ -128,7 +128,7 @@
     <select name="tlc-frequency" id="tlc-frequency" class="tlc-select" style="width: 100%">
       <option value="direct" selected><?= __("Direct","tlc-job-alert") ?></option>
       <option value="weekly"><?= __("Weekly","tlc-job-alert") ?></option>
-      <option value="twoWeeks"><?= __("Each two weeks","tlc-job-alert") ?></option>
+      <option value="two-weeks"><?= __("Each two weeks","tlc-job-alert") ?></option>
     </select>
   </div>
 

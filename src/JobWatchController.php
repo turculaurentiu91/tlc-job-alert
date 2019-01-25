@@ -1,10 +1,25 @@
 <?php namespace TlcJobAlert;
 
 use \RedBeanPHP\R as R;
+use Rakit\Validation\Validator;
 
 class JobWatchController {
+
   public function __construct() {
     add_action('rest_api_init', array($this, 'register_endpoints'));
+  }
+
+  private function get_validator($data) {
+    $validator = new Validator;
+    return $validator->make($data, [
+      'name' => 'required|alpha_spaces',
+      'email' => 'required|email',
+      'keywords' => 'required|alpha_spaces',
+      'frequency' => 'required|in:direct,weekly,two-weeks',
+      'location' => 'array',
+      'discipline' => 'array',
+      'contract-type' => 'array',
+    ]);
   }
 
   public function register_endpoints() {
@@ -57,7 +72,8 @@ class JobWatchController {
 
   public function get_items($request) {
     // For some reason Redbeans returns an associative array, so conversion to indexed is needed
-    $data = array_values(R::findAll('jobwatch'));
+   // $data = array_values(R::findAll('jobwatch'));
+   $data = R::exportAll(R::findAll('jobwatch'));
     return new \WP_REST_Response($data, 200);
   }
 
@@ -66,7 +82,7 @@ class JobWatchController {
     if ($job_watch->ID == 0) {
       return new \WP_Error('no_job_watch', 'No job watch found', array('status' => 404));
     }
-    return new \WP_REST_Response($job_watch, 200);
+    return new \WP_REST_Response(R::exportAll($job_watch)[0], 200);
   }
 
   public function delete_item($request) {
@@ -78,13 +94,28 @@ class JobWatchController {
     return new \WP_REST_Response("", 200);
   }
 
+  private function validate($data) {
+    $validation = $this->get_validator($data);
+    $validation->validate();
+    if($validation->fails()) {
+      $errors = $validation->errors();
+      return new \WP_Error('invalid_data', $errors->firstOfAll(), array('status' => '403'));
+    }
+
+    return false;
+  }
+
   public function create_item($request) {
+
     $req = $request->get_json_params();
+
+    $validation = $this->validate($req);
+    if ($validation !== false) { return $validation; }
 
     $job_watch = R::dispense('jobwatch');
     $job_watch->name = $req['name'];
     $job_watch->email = $req['email'];
-    $job_watch->keywords = $req['keyword'];
+    $job_watch->keywords = $req['keywords'];
     $job_watch->frequency = $req['frequency'];
 
     if (isset($req['location'])) {
@@ -113,11 +144,14 @@ class JobWatchController {
 
     R::store($job_watch);
 
-    return new \WP_REST_Response($job_watch, 200);
+    return new \WP_REST_Response(R::exportAll($job_watch)[0], 200);
   }
 
-  public function update_item($request) {
+  public function edit_item($request) {
     $req = $request->get_json_params();
+
+    $validation = $this->validate($req);
+    if ($validation !== false) { return $validation; }
 
     $job_watch = R::load('jobwatch', $request['id']);
     if ($job_watch->ID == 0) {
@@ -126,8 +160,11 @@ class JobWatchController {
 
     $job_watch->name = $req['name'];
     $job_watch->email = $req['email'];
-    $job_watch->keywords = $req['keyword'];
+    $job_watch->keywords = $req['keywords'];
     $job_watch->frequency = $req['frequency'];
+    $job_watch->ownJoblocationList = [];
+    $job_watch->ownJobdisciplineList = [];
+    $job_watch->ownJobcontracttypeList = []; 
 
     if (isset($req['location'])) {
       foreach ($req['location'] as $key => $value) {
@@ -155,6 +192,6 @@ class JobWatchController {
 
     R::store($job_watch);
 
-    return new \WP_REST_Response($job_watch, 200);
+    return new \WP_REST_Response(R::exportAll($job_watch)[0], 200);
   }
 }
