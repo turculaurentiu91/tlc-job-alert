@@ -46,6 +46,13 @@ class AdminPage {
           '1.0.0',
           true
         );
+
+        wp_enqueue_style(
+          'job-alert-admin-css',
+          TLC_JOB_ALERT_PATH_URL . 'assets/css/admin-menu.css',
+          array(),
+          '1.0.0'
+        );
       }
     }
   }
