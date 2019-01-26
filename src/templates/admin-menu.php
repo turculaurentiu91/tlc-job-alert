@@ -11,37 +11,41 @@
 
   <div v-if="activePage == 'subscriptions'">
     <h3><?= __("Subscriptions","tlc-job-alert") ?></h3>
-    <table class="widefat">
-      <thead>
-        <tr>
-          <th><?= __("ID", "tlc-job-alert") ?></th>
-          <th><?= __("Name", "tlc-job-alert") ?></th>
-          <th><?= __("Email", "tlc-job-alert") ?></th>
-          <th><?= __("Keywords", "tlc-job-alert") ?></th>
-          <th><?= __("Locations", "tlc-job-alert") ?></th>
-          <th><?= __("Contract Type", "tlc-job-alert") ?></th>
-          <th><?= __("Discipline", "tlc-job-alert") ?></th>
-          <th><?= __("Frequency", "tlc-job-alert") ?></th>
-        </tr>
-      </thead>
+    <div class="rel-position">
+      <div class="loader" v-if="fetching">
+        <div class="loader__icon"></div>
+      </div>
+      <table class="widefat">
+        <thead>
+          <tr>
+            <th><?= __("ID", "tlc-job-alert") ?></th>
+            <th><?= __("Name", "tlc-job-alert") ?></th>
+            <th><?= __("Email", "tlc-job-alert") ?></th>
+            <th><?= __("Keywords", "tlc-job-alert") ?></th>
+            <th><?= __("Locations", "tlc-job-alert") ?></th>
+            <th><?= __("Contract Type", "tlc-job-alert") ?></th>
+            <th><?= __("Discipline", "tlc-job-alert") ?></th>
+            <th><?= __("Frequency", "tlc-job-alert") ?></th>
+          </tr>
+        </thead>
 
-      <tbody>
-      
-      </tbody>
-      
-      <tfoot>
-        <tr>
-          <th><?= __("ID", "tlc-job-alert") ?></th>
-          <th><?= __("Name", "tlc-job-alert") ?></th>
-          <th><?= __("Email", "tlc-job-alert") ?></th>
-          <th><?= __("Keywords", "tlc-job-alert") ?></th>
-          <th><?= __("Locations", "tlc-job-alert") ?></th>
-          <th><?= __("Contract Type", "tlc-job-alert") ?></th>
-          <th><?= __("Discipline", "tlc-job-alert") ?></th>
-          <th><?= __("Frequency", "tlc-job-alert") ?></th>
-        </tr>
-      </tfoot>
-    </table>
+        <tbody>
+        </tbody>
+        
+        <tfoot>
+          <tr>
+            <th><?= __("ID", "tlc-job-alert") ?></th>
+            <th><?= __("Name", "tlc-job-alert") ?></th>
+            <th><?= __("Email", "tlc-job-alert") ?></th>
+            <th><?= __("Keywords", "tlc-job-alert") ?></th>
+            <th><?= __("Locations", "tlc-job-alert") ?></th>
+            <th><?= __("Contract Type", "tlc-job-alert") ?></th>
+            <th><?= __("Discipline", "tlc-job-alert") ?></th>
+            <th><?= __("Frequency", "tlc-job-alert") ?></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 
   <script type="text/x-template" id="tab-button-template">

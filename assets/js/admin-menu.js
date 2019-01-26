@@ -21,9 +21,13 @@ Vue.component('tab-button', {
 const store = new Vuex.Store({
   state: {
     activePage: 'subscriptions',
+    fetching: true,
+    subscriptions: [],
   },
   getters: {
     activePage: state => state.activePage,
+    fetching: state => state.fetching,
+    subscriptions: state => state.subscriptions,
   },
   mutations: {
     setPage: (state, page) => state.activePage = page,
@@ -37,6 +41,8 @@ const adminApp = new Vue({
   computed: {
     ...Vuex.mapGetters([
       'activePage',
+      'fetching',
+      'subscriptions'
     ]),
   },
   methods: {
