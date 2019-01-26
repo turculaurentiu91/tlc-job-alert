@@ -40,6 +40,13 @@ class AdminPage {
         );
 
         wp_enqueue_script(
+          'axios',
+          'https://unpkg.com/axios/dist/axios.min.js',
+          array(),
+          'latest'
+        );
+
+        wp_enqueue_script(
           'job-alert-admin',
           TLC_JOB_ALERT_PATH_URL . 'assets/js/admin-menu.js',
           array(),
