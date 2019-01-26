@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.js"></script>
 
 <div class="wrap" id="admin-app">
   <h2 class="nav-tab-wrapper">
@@ -54,6 +52,3 @@
     </a>
   </script>
 </div>
-
-
-<script src="<?= TLC_JOB_ALERT_PATH_URL . 'assets/js/admin-menu.js' ?>"></script>
