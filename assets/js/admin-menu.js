@@ -1,3 +1,8 @@
+
+const tlcJobAlertAPI = axios.create({
+  baseURL: `${homeUrl}/wp-json/tlc/job-alert/`,
+})
+
 Vue.use(Vuex);
 
 Vue.component('tab-button', {
@@ -31,7 +36,42 @@ const store = new Vuex.Store({
   },
   mutations: {
     setPage: (state, page) => state.activePage = page,
+    subsRequest: state => state.fetching = true,
+    subsSuccess: (state, subs) => {
+      state.fetching = false;
+      state.subscriptions = subs;
+    },
+    subsFailure: (state, error) => {
+      state.fetching = false;
+      console.error(error);
+    },
+    subsDeleteSuccess: (state, subID) => {
+      const filterSubsByID = sub => sub.id !== subID;
+      state.subscriptions = state.subscriptions.filter(filterSubsByID);
+      state.fetching = false;
+    },
   },
+  actions: {
+    deleteSubscription({ commit }, idToDelete) {
+      const subsDeleteSuccess = () => commit('subsDeleteSuccess', idToDelete);
+      
+      commit('subsRequest');
+      tlcJobAlertAPI.delete(`/${idToDelete}`).then(subsDeleteSuccess);
+
+    },
+    loadSubscriptions({ commit }) {
+      const subsSuccess = response => commit('subsSuccess', response.data);
+      const subsFailure = error => commit('subsFailure', error);
+      const errorType = error => (
+        error.response 
+          ? 'not_ok'  
+          : error.request ? 'no_response' : 'bad_setup'
+      );
+      const commitFailure = error => subsFailure({type: errorType(error), message: 'Could not fetch the subscriptions'}); 
+
+      tlcJobAlertAPI.get('/').then(subsSuccess).catch(commitFailure);
+    },
+  }
 });
 
 const adminApp = new Vue({
@@ -49,6 +89,13 @@ const adminApp = new Vue({
     ...Vuex.mapMutations([
       'setPage'
     ]),
+    ...Vuex.mapActions([
+      'loadSubscriptions',
+      'deleteSubscription'
+    ]),
   },
+  mounted() {
+    this.loadSubscriptions();
+  }
 });
 

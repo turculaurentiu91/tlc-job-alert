@@ -1,3 +1,6 @@
+<script>
+  const homeUrl = "<?= home_url() ?>";
+</script>
 
 <div class="wrap" id="admin-app">
   <h2 class="nav-tab-wrapper">
@@ -26,10 +29,32 @@
             <th><?= __("Contract Type", "tlc-job-alert") ?></th>
             <th><?= __("Discipline", "tlc-job-alert") ?></th>
             <th><?= __("Frequency", "tlc-job-alert") ?></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
 
         <tbody>
+          <tr v-for="sub in subscriptions">
+            <td>{{sub.id}}</td>
+            <td>{{sub.name}}</td>
+            <td>{{sub.email}}</td>
+            <td>{{sub.keywords}}</td>
+            <td>{{sub.ownJoblocations && sub.ownJoblocations[0].name}}</td>
+            <td>{{sub.ownJobcontracttype && sub.ownJobcontracttype[0].name}}</td>
+            <td>{{sub.ownJobdiscipline && sub.ownJobdiscipline[0].name}}</td>
+            <td>{{sub.frequency}}</td>
+            <td>
+              <button class="btn btn--blue">
+                <span class="dashicons dashicons-edit"></span>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn--red" @click.prevent="deleteSubscription(sub.id)">
+                <span class="dashicons dashicons-trash"></span>
+              </button>
+            </td>
+          </tr>
         </tbody>
         
         <tfoot>
@@ -42,6 +67,8 @@
             <th><?= __("Contract Type", "tlc-job-alert") ?></th>
             <th><?= __("Discipline", "tlc-job-alert") ?></th>
             <th><?= __("Frequency", "tlc-job-alert") ?></th>
+            <th></th>
+            <th></th>
           </tr>
         </tfoot>
       </table>

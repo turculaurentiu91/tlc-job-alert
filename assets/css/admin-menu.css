@@ -32,6 +32,29 @@
   animation: loader-icon-spin 2s linear infinite;
 }
 
+/* --BUTTONS */
+.btn {
+  border: 0;
+  background: inherit;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+.btn:hover {
+  background: #aaa;
+  cursor: pointer;
+}
+
+.btn--blue {
+  background: #0074a2;
+  color: #fff;
+}
+
+.btn--red {
+  background: rgb(163, 50, 8);
+  color: #fff;
+}
+
 
 /* --HELPER CLASSES */
 .rel-position { position: relative !important; }
