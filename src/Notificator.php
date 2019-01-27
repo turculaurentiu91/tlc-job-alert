@@ -68,7 +68,7 @@ class Notificator {
         'job_listing_category',
         array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names')
       );
-      var_dump($job_disciplines);
+      
     }
     return true;
   }
