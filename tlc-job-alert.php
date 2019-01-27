@@ -14,3 +14,4 @@ require 'vendor/autoload.php';
 require "config.php";
 
 $tlcJobAlert = new TlcJobAlert\Main();
+$GLOBALS['tlc_event'] = new Sabre\Event\Emitter();
