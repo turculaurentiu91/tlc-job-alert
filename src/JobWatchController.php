@@ -122,6 +122,7 @@ class JobWatchController {
       return new \WP_Error('no_job_watch', 'No job watch found', array('status' => 404));
     }
     R::trash($job_watch);
+    $tlc_event->emit('delete-subscription', [$job_watch]);
     return new \WP_REST_Response("", 200);
   }
 
@@ -137,6 +138,7 @@ class JobWatchController {
   }
 
   public function create_item($request) {
+    global $tlc_event;
 
     $req = $request->get_json_params();
 
@@ -174,7 +176,7 @@ class JobWatchController {
     }
 
     R::store($job_watch);
-
+    $tlc_event->emit('new-subscription', [$job_watch]);
     return new \WP_REST_Response($this->prepare_item($job_watch), 200);
   }
 
@@ -222,7 +224,7 @@ class JobWatchController {
     }
 
     R::store($job_watch);
-
+    $tlc_event->emit('edit-subscription', [$job_watch]);
     return new \WP_REST_Response($this->prepare_item($job_watch), 200);
   }
 }
