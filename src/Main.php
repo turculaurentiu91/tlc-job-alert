@@ -22,5 +22,17 @@ class Main {
     $this->jobWatchController = new JobWatchController($this->events);
     $this->notificator = New Notificator($this->events);
     
+    add_action('save_post', array($this, 'onPostUpdated'));
+    add_action('untrashed_post', array($this, 'onPostUpdated'));
+  }
+
+  public function onPostUpdated($postID) {
+    if ( wp_is_post_revision( $postID ) ) {
+      return;
+    }
+
+    if (get_post_type($postID) == 'job_listing') {
+      $this->events->emit('job-updated', [$postID]);
+    }
   }
 }
