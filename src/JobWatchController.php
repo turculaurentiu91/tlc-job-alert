@@ -1,11 +1,17 @@
 <?php namespace TlcJobAlert;
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 use \RedBeanPHP\R as R;
 use Rakit\Validation\Validator;
 
 class JobWatchController {
 
-  public function __construct() {
+  private $events;
+
+  public function __construct($events) {
+    $this->events = $events;
     add_action('rest_api_init', array($this, 'register_endpoints'));
   }
 
@@ -122,7 +128,7 @@ class JobWatchController {
       return new \WP_Error('no_job_watch', 'No job watch found', array('status' => 404));
     }
     R::trash($job_watch);
-    $tlc_event->emit('delete-subscription', [$job_watch]);
+    $this->events->emit('delete-subscription', [$this->prepare_item($job_watch)]);
     return new \WP_REST_Response("", 200);
   }
 
@@ -138,8 +144,6 @@ class JobWatchController {
   }
 
   public function create_item($request) {
-    global $tlc_event;
-
     $req = $request->get_json_params();
 
     $validation = $this->validate($req);
@@ -176,7 +180,7 @@ class JobWatchController {
     }
 
     R::store($job_watch);
-    $tlc_event->emit('new-subscription', [$job_watch]);
+    $this->events->emit('new-subscription', [$this->prepare_item($job_watch)]);
     return new \WP_REST_Response($this->prepare_item($job_watch), 200);
   }
 
@@ -224,7 +228,7 @@ class JobWatchController {
     }
 
     R::store($job_watch);
-    $tlc_event->emit('edit-subscription', [$job_watch]);
-    return new \WP_REST_Response($this->prepare_item($job_watch), 200);
+    $this->events->emit('edit-subscription', [$job_watch]);
+    return new \WP_REST_Response($this->prepare_item($this->prepare_item($job_watch)), 200);
   }
 }
