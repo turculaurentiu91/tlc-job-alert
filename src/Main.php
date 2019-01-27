@@ -6,6 +6,8 @@ class Main {
   private $adminPage;
   private $shortcodes;
   private $jobWatchController;
+  private $notificator;
+  private $events;
 
   public function __construct() {
     R::setup(
@@ -14,8 +16,11 @@ class Main {
       DB_PASSWORD
     );
     
+    $this->events = new \Sabre\Event\Emitter();
     $this->adminPage = new AdminPage();
     $this->shortcodes = new Shortcodes();
-    $this->jobWatchController = new JobWatchController();
+    $this->jobWatchController = new JobWatchController($this->events);
+    $this->notificator = New Notificator($this->events);
+    
   }
 }
