@@ -50,7 +50,7 @@ class JobWatchController {
   }
 
   private function prepare_array($itemList) {
-    return array_map(array($this, 'prepare_item'), $itemList);
+    return array_values(array_map(array($this, 'prepare_item'), $itemList));
   }
 
   public function register_endpoints() {

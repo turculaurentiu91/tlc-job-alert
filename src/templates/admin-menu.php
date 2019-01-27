@@ -1,8 +1,172 @@
+<?php
+  // --DEFINE LOCATIONS
+  $locTerms = get_terms(array('taxonomy' => 'job_listing_region', 'hide_empty' => false));
+  $locations = array();
+  if (!is_wp_error($locTerms)) {
+    foreach($locTerms as $term) {
+      $locations[] = $term->name;
+    }
+  }
+
+  // --DEFINE DISCIPLINES
+  $disciplineTerms = get_terms(array('taxonomy' => 'job_listing_category', 'hide_empty' => false));
+  $disciplines = array();
+  if (!is_wp_error($disciplineTerms)) {
+    foreach($disciplineTerms as $term) {
+      $disciplines[] = $term->name;
+    }
+  }
+
+  // --DEFINE CONTRACT  TYPES
+  $tyleTerms = get_terms(array('taxonomy' => 'job_listing_type', 'hide_empty' => false));
+  $contractTypes = array();
+  if (!is_wp_error($tyleTerms)) {
+    foreach($tyleTerms as $term) {
+      $contractTypes[] = $term->name;
+    }
+  } 
+?>
+
 <script>
-  const homeUrl = "<?= home_url() ?>";
+  const homeUrl = '<?= home_url() ?>';
+  const locations = JSON.parse('<?= json_encode($locations) ?>');
+  const disciplines = JSON.parse('<?= json_encode($disciplines) ?>');
+  const contractTypes = JSON.parse('<?= json_encode($contractTypes) ?>');
 </script>
 
 <div class="wrap" id="admin-app">
+  <div 
+    class="subs-form" 
+    v-if="subsFormContext == 'add' || subsFormContext == 'edit'"
+  >
+    <div class="subs-form__content">
+      <button class="subs-form__close btn" @click.prevent="setSubsFormContext('none')">
+        <span class="dashicons dashicons-no"></span>
+      </button>
+      <h3 v-if="subsFormContext == 'add'">
+      <?= __("Add a new subscription", "tlc-job-alert") ?>
+    </h3>
+    <h3 v-if="subsFormContext == 'edit'">
+      <?= __("Edit subscription with id", "tlc-job-alert") ?> {{subsFormData.id}}
+    </h3>
+    <form action="#" @submit.prevent="subsFormOnSubmit">
+
+      <table class="form-table">
+        <tr>
+          <td><label for="tlc-name"> <?= __("Name", "tlc-job-alert") ?> </label></td>
+          <td><input 
+            type="text" 
+            required
+            id="tlc-name" 
+            minLength="3" 
+            placeholder="<?= __('Name','tlc-job-alert') ?>" 
+            :value="subsFormData.name"
+            @input="setSubsFormData({field: 'name', value: $event.target.value})"
+            class="regular-text"
+          ></td>
+        </tr>
+        <tr>
+          <td><label for="tlc-email"> <?= __("E-mail Address", "tlc-job-alert") ?> </label></td>
+          <td><input 
+            type="email" 
+            required 
+            name="tlc-email" 
+            id="tlc-email" 
+            placeholder="<?= __('E-mail Address','tlc-job-alert') ?>" 
+            :value="subsFormData.email"
+            @input="setSubsFormData({field: 'email', value: $event.target.value})"
+            class="regular-text"
+          ></td>
+        </tr>
+        <tr>
+          <td><label for="tlc-keyword"> <?= __("Keyword", "tlc-job-alert") ?> </label></td>
+          <td><input 
+            type="text" 
+            required 
+            name="tlc-keyword" 
+            id="tlc-keyword" 
+            placeholder="<?= __('Keyword','tlc-job-alert') ?>" 
+            :value="subsFormData.keywords"
+            @input="setSubsFormData({field: 'keywords', value: $event.target.value})"
+            class="regular-text"  
+          ></td>
+        </tr>
+        <tr v-if="$store.state.locations.length > 0">
+          <td><label for="tlc-location"> <?= __("Location", "tlc-job-alert") ?> </label></td>
+          <td><select 
+            id="tlc-location" 
+            class="regular-text"
+            name="tlc-location[]" 
+            multiple="multiple"
+            @change="setSubsFormData({field: 'locations', value: selectedOptions($event)})"
+          >
+            <option 
+              v-for="loc in $store.state.locations" 
+              :value="loc"
+              :selected="$store.state.subsFormData.locations.indexOf(loc) !== -1"
+              >
+              {{loc}}
+            </option>
+          </select></td>
+        </tr>
+        <tr v-if="$store.state.disciplines.length > 0" >
+          <td><label for="tlc-discipline"> <?= __("Disciplines", "tlc-job-alert") ?> </label></td>
+          <td><select            
+            id="tlc-discipline" 
+            class="regular-text"
+            name="tlc-discipline[]" 
+            multiple="multiple"
+            @change="setSubsFormData({field: 'disciplines', value: selectedOptions($event)})"
+          >
+            <option 
+              v-for="discipline in $store.state.disciplines" 
+              :value="discipline"
+              :selected="$store.state.subsFormData.disciplines.indexOf(discipline) !== -1"
+              >
+              {{discipline}}
+            </option>
+          </select></td>
+        </tr>
+        <tr v-if="$store.state.contractTypes.length > 0">
+          <td><label for="tlc-contract-type"> <?= __("Contract Type", "tlc-job-alert") ?> </label></td>
+          <td><select            
+            id="tlc-contract-type" 
+            class="regular-text"
+            name="tlc-contract-type[]" 
+            multiple="multiple"
+            @change="setSubsFormData({field: 'contractTypes', value: selectedOptions($event)})"
+          >
+            <option 
+              v-for="contractType in $store.state.contractTypes" 
+              :value="contractType"
+              :selected="$store.state.subsFormData.contractTypes.indexOf(contractType) !== -1"
+              >
+              {{contractType}}
+            </option>
+          </select></td>
+        </tr>
+        <tr>
+          <td><label for="tlc-frequency"></label></td>
+          <td><select 
+            name="tlc-freuency" 
+            id="tlc-frequency"
+            class="regular-text"
+            :value="$store.state.subsFormData.frequency"
+            @change="setSubsFormData({field: 'frequency', value: $event.target.value})"
+          >
+            <option value="direct"><?= __("Direct","tlc-job-alert") ?></option>
+            <option value="weekly"><?= __("Weekly","tlc-job-alert") ?></option>
+            <option value="two-weeks"><?= __("Each two weeks","tlc-job-alert") ?></option>
+          </select></td>
+        </tr>
+      </table>
+
+      <input type="submit" value="<?= __('Submit','tlc-job-alert') ?>" class="button-primary">
+    </form>
+    </div>
+    
+  </div>
+
   <h2 class="nav-tab-wrapper">
     <tab-button page-slug="subscriptions">
       <?= __("Subscriptions", "tlc-job-alert") ?>
@@ -40,12 +204,12 @@
             <td>{{sub.name}}</td>
             <td>{{sub.email}}</td>
             <td>{{sub.keywords}}</td>
-            <td>{{sub.ownJoblocations && sub.ownJoblocations[0].name}}</td>
-            <td>{{sub.ownJobcontracttype && sub.ownJobcontracttype[0].name}}</td>
-            <td>{{sub.ownJobdiscipline && sub.ownJobdiscipline[0].name}}</td>
+            <td>{{sub.locations && sub.locations[0]}}</td>
+            <td>{{sub.contractTypes && sub.contractTypes[0]}}</td>
+            <td>{{sub.disciplines && sub.disciplines[0]}}</td>
             <td>{{sub.frequency}}</td>
             <td>
-              <button class="btn btn--blue">
+              <button class="btn btn--blue" @click.prevent="openEditSusbForm(sub)">
                 <span class="dashicons dashicons-edit"></span>
               </button>
             </td>
@@ -73,6 +237,9 @@
         </tfoot>
       </table>
     </div>
+    <a class="button-primary margin-top-medium" href="#" @click.prevent="openAddSubsForm">
+      <?= __("Add Subscription", "tlc-job-allert") ?>
+    </a>
   </div>
 
   <script type="text/x-template" id="tab-button-template">

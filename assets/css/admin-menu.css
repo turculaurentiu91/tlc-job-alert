@@ -32,6 +32,41 @@
   animation: loader-icon-spin 2s linear infinite;
 }
 
+/* --SUBS-FORM */
+
+.subs-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0, .8);
+  z-index: 1000;
+
+}
+
+.subs-form__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  min-height: 60vh;
+  width: 60vw;
+  background: white;
+  padding: 20px;
+}
+
+.subs-form__content h3 {
+  padding: 15px 10px;
+}
+
+.subs-form__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 /* --BUTTONS */
 .btn {
   border: 0;
@@ -59,3 +94,4 @@
 /* --HELPER CLASSES */
 .rel-position { position: relative !important; }
 .height100px { height: 100px !important; }
+.margin-top-medium { margin-top: 20px !important; }

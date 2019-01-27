@@ -28,13 +28,49 @@ const store = new Vuex.Store({
     activePage: 'subscriptions',
     fetching: true,
     subscriptions: [],
+    subsFormContext: 'none',
+    locations: [ ...locations ],
+    disciplines: [ ...disciplines ],
+    contractTypes: [ ...contractTypes ],
+    subsFormData: {
+      name: '',
+      email: '',
+      keywords: '',
+      locations: [],
+      disciplines: [],
+      contractTypes: [],
+      frequency: 'direct',
+    },
   },
   getters: {
     activePage: state => state.activePage,
     fetching: state => state.fetching,
     subscriptions: state => state.subscriptions,
+    subsFormContext: state => state.subsFormContext,
+    subsFormData: state => state.subsFormData,
   },
   mutations: {
+    openEditSusbForm: (state, sub) => {
+      state.subsFormData = sub;
+      state.subsFormContext = 'edit';
+    },
+    openAddSubsForm: (state) => {
+      state.subsFormData = {
+        name: '',
+        email: '',
+        keywords: '',
+        locations: [],
+        disciplines: [],
+        contractTypes: [],
+        frequency: 'direct',
+      };
+      state.subsFormContext = 'add';
+    },
+
+    subsAddSuccess: (state, sub) => {
+      state.fetching = false;
+      state.subscriptions = [ ...state.subscriptions, sub ];
+    },
     setPage: (state, page) => state.activePage = page,
     subsRequest: state => state.fetching = true,
     subsSuccess: (state, subs) => {
@@ -50,8 +86,32 @@ const store = new Vuex.Store({
       state.subscriptions = state.subscriptions.filter(filterSubsByID);
       state.fetching = false;
     },
+    subsEditSuccess: (state, sub) => {
+      const mapSubs = s => s.id === sub.id ? sub : s; 
+      state.subscriptions = state.subscriptions.map(mapSubs);
+      state.fetching = false;
+    },
+    setSubsFormData: (state, { field, value }) => state.subsFormData[field] = value,
+    setSubsFormContext: (state, context) => state.subsFormContext = context,
   },
   actions: {
+    editSubscription({commit, state}) {
+      const subsEditSuccess = res => commit('subsEditSuccess', res.data);
+
+      commit('subsRequest');
+      commit('setSubsFormContext', 'none');
+
+      tlcJobAlertAPI.put(`/${state.subsFormData.id}`, state.subsFormData)
+      .then(subsEditSuccess);
+    },
+    addSubscription({ commit, state }) {
+      const subsAddSuccess = req => commit('subsAddSuccess', req.data);
+
+      commit('subsRequest');
+      commit('setSubsFormContext', 'none')
+      tlcJobAlertAPI.post('/', state.subsFormData)
+      .then(subsAddSuccess);
+    },
     deleteSubscription({ commit }, idToDelete) {
       const subsDeleteSuccess = () => commit('subsDeleteSuccess', idToDelete);
       
@@ -82,17 +142,37 @@ const adminApp = new Vue({
     ...Vuex.mapGetters([
       'activePage',
       'fetching',
-      'subscriptions'
+      'subscriptions',
+      'subsFormData',
+      'subsFormContext'
     ]),
   },
   methods: {
     ...Vuex.mapMutations([
-      'setPage'
+      'setPage',
+      'setSubsFormData',
+      'openAddSubsForm',
+      'setSubsFormContext',
+      'openEditSusbForm',
     ]),
     ...Vuex.mapActions([
       'loadSubscriptions',
-      'deleteSubscription'
+      'deleteSubscription',
+      'addSubscription',
+      'editSubscription',
     ]),
+    selectedOptions(event) {
+      return [ ...event.target.selectedOptions ].map( option => option.value );
+    },
+    subsFormOnSubmit() {
+      if (this.subsFormContext === 'add') {
+        this.addSubscription();
+      } else if (this.subsFormContext === 'edit') {
+        this.editSubscription();
+      } else { 
+        return;
+      }
+    },
   },
   mounted() {
     this.loadSubscriptions();
