@@ -15,6 +15,7 @@
       },
     "require": {
         "gabordemooij/redbean": "^5.2",
-        "rakit/validation": "^1.1"
+        "rakit/validation": "^1.1",
+        "sabre/event": "^5"
     }
 }
