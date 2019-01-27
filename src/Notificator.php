@@ -1,5 +1,7 @@
 <?php namespace TlcJobAlert;
 
+use \RedBeanPHP\R as R;
+
 class Notificator {
   private $events;
 
@@ -8,6 +10,10 @@ class Notificator {
 
     $this->events->on('new-subscription', function($jobAlert) { 
       $this->notify_new_subscription($jobAlert);
+    });
+
+    $this->events->on('job-updated', function($jobID) {
+      $this->verify_all_job_watches($jobID);
     });
   }
 
@@ -31,6 +37,60 @@ class Notificator {
       $attachments
     );
     remove_filter( 'wp_mail_content_type', array($this, 'set_html_email_content_type') );
+  }
+
+  private function verify_all_job_watches($jobID) {
+    $job_watches = R::findAll('jobwatch');
+    foreach($job_watches as $key => $jobwatch) {
+      if ($this->job_match($jobID, $jobwatch)) {
+        $this->notify_new_job($jobID, $jobwatch);
+      }
+    }
+  }
+
+  private function job_match($jobID, $jobAlerBean) {
+    return (
+      $this->verify_job_keyword_match($jobID, $jobAlerBean)
+      && $this->verify_job_locations_match($jobID, $jobAlerBean)
+      && $this->verify_job_discipline_match($jobID, $jobAlerBean)
+      && $this->verify_job_contractType_match($jobID, $jobAlerBean)
+    );
+  }
+
+  private function verify_job_locations_match($jobID, $jobAlerBean) {
+    return true;
+  }
+
+  private function verify_job_discipline_match($jobID, $jobAlerBean) {
+    if (taxonomy_exists('job_listing_category')) {
+      $job_disciplines = wp_get_post_terms(
+        $jobID,
+        'job_listing_category',
+        array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names')
+      );
+      var_dump($job_disciplines);
+    }
+    return true;
+  }
+
+  private function verify_job_contractType_match($jobID, $jobAlerBean) {
+    return true;
+  }
+
+  private function verify_job_keyword_match($jobID, $jobAlerBean) {
+    return strpos(
+      get_post($jobID)->post_content,
+      $jobAlerBean->keywords
+    ) !== FALSE;
+  }
+
+  private function notify_new_job($jobID, $jobAlertBean) {
+    $this->send_email(array(
+      'to' => $jobAlertBean->email,
+      'subject' => __("Hoppenbrouwers Techniek Job Alert", "tlc-job-alert"),
+      'template' => 'newJobEmail',
+      'templateData' => array('jobID' => $jobID,),
+    ));
   }
 
   public function notify_new_subscription($jobAlert) {

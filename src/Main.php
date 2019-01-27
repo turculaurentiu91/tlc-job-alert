@@ -27,12 +27,19 @@ class Main {
   }
 
   public function onPostUpdated($postID) {
-    if ( wp_is_post_revision( $postID ) ) {
-      return;
-    }
-
-    if (get_post_type($postID) == 'job_listing') {
-      $this->events->emit('job-updated', [$postID]);
+    if ( 
+        !(
+          wp_is_post_revision( $postID ) 
+          || wp_is_post_autosave( $postID ) 
+          || get_post_status($postID) != 'publish'
+          || (defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE)
+          || (get_post_type($postID) != 'job_listing')
+        )
+      ) {
+        $last_update = get_option('tlc-job-alert-last-update', 0);
+        if ($last_update >= time() -3) { return; }
+        $this->events->emit('job-updated', [$postID]);
+        update_option('tlc-job-alert-last-update', time());
     }
   }
 }
