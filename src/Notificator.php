@@ -58,7 +58,9 @@ class Notificator {
   }
 
   private function verify_job_locations_match($jobID, $jobAlerBean) {
-    
+    if ( 
+      count($jobAlerBean->ownJoblocationList) == 0
+    ) { return true; }
     if (taxonomy_exists('job_listing_region')) {
       $job_locations = wp_get_post_terms(
         $jobID,
@@ -77,6 +79,9 @@ class Notificator {
   }
 
   private function verify_job_discipline_match($jobID, $jobAlerBean) {
+    if (
+      count($jobAlerBean->ownJobdisciplineList) == 0
+    ) { return true; }
     if (taxonomy_exists('job_listing_category')) {
       $job_disciplines = wp_get_post_terms(
         $jobID,
@@ -95,6 +100,9 @@ class Notificator {
   }
 
   private function verify_job_contractType_match($jobID, $jobAlerBean) {
+    if (
+      count($jobAlerBean->ownJobcontracttypeList) == 0
+    ) { return true; }
     if (taxonomy_exists('job_listing_type')) {
       $job_contractTypes = wp_get_post_terms(
         $jobID,
@@ -113,7 +121,10 @@ class Notificator {
   }
 
   private function verify_job_keyword_match($jobID, $jobAlerBean) {
-    if ($jobAlerBean->keywords == "") { return TRUE; }
+    if (
+      $jobAlerBean->keywords == ""
+      || $jobAlerBean->keywords == null
+      ) { return TRUE; }
     return strpos(
       get_post($jobID)->post_content,
       $jobAlerBean->keywords
