@@ -17,6 +17,7 @@ class Main {
     );
     
     $this->events = new \Sabre\Event\Emitter();
+    $GLOBALS['ev'] = $this->events;
     $this->adminPage = new AdminPage();
     $this->shortcodes = new Shortcodes();
     $this->jobWatchController = new JobWatchController($this->events);

@@ -34,7 +34,9 @@
     }
 
     R::store($job_watch);
-
+    $GLOBALS['ev']->emit('new-subscription',array($job_watch));
+    
+    echo '<div class="tlc-job-alert-success">Thank you for your subscription, we will keep you up to date with new job offers</div>';
   }
 
   // --DEFINE LOCATIONS
@@ -67,6 +69,16 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<style>
+    .tlc-job-alert-success {
+      background-color: #ee0a00;
+		color: #ffffff;
+		border-radius: 2px;
+      padding: 20px 40px;
+      margin-bottom: 10px;
+    }
+  </style>
 
 <h2>
   <?= __("Job Alert Subscription Form","tlc-job-alert") ?>
