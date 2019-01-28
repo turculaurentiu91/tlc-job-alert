@@ -90,7 +90,7 @@
 
   <div>
     <label for="tlc-keyword"> <?= __("Keyword", "tlc-job-alert") ?> </label>
-    <input type="text" required name="tlc-keyword" id="tlc-keyword" placeholder="<?= __('Keyword','tlc-job-alert') ?>" >
+    <input type="text" name="tlc-keyword" id="tlc-keyword" placeholder="<?= __('Keyword','tlc-job-alert') ?>" >
   </div>
 
   <div>

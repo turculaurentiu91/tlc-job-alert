@@ -81,8 +81,7 @@
         <tr>
           <td><label for="tlc-keyword"> <?= __("Keyword", "tlc-job-alert") ?> </label></td>
           <td><input 
-            type="text" 
-            required 
+            type="text"  
             name="tlc-keyword" 
             id="tlc-keyword" 
             placeholder="<?= __('Keyword','tlc-job-alert') ?>" 

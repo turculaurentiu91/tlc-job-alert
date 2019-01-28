@@ -20,7 +20,7 @@ class JobWatchController {
     return $validator->make($data, [
       'name' => 'required|alpha_spaces',
       'email' => 'required|email',
-      'keywords' => 'required|alpha_spaces',
+      'keywords' => 'alpha_spaces',
       'frequency' => 'required|in:direct,weekly,two-weeks',
       'locations' => 'array',
       'disciplines' => 'array',
