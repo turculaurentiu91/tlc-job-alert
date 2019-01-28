@@ -58,6 +58,21 @@ class Notificator {
   }
 
   private function verify_job_locations_match($jobID, $jobAlerBean) {
+    
+    if (taxonomy_exists('job_listing_region')) {
+      $job_locations = wp_get_post_terms(
+        $jobID,
+        'job_listing_region',
+        array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names')
+      );
+      foreach($jobAlerBean->ownJoblocationList as $key => $location) {
+        if (array_search($location->name, $job_locations) !== FALSE) {
+          return true;
+        }
+      }
+      return false;
+      
+    }
     return true;
   }
 
@@ -68,16 +83,37 @@ class Notificator {
         'job_listing_category',
         array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names')
       );
+      foreach($jobAlerBean->ownJobdisciplineList as $key => $discipline) {
+        if (array_search($discipline->name, $job_disciplines) !== FALSE) {
+          return true;
+        }
+      }
+      return false;
       
     }
     return true;
   }
 
   private function verify_job_contractType_match($jobID, $jobAlerBean) {
+    if (taxonomy_exists('job_listing_type')) {
+      $job_contractTypes = wp_get_post_terms(
+        $jobID,
+        'job_listing_type',
+        array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names')
+      );
+      foreach($jobAlerBean->ownJobcontracttypeList as $key => $contractType) {
+        if (array_search($contractType->name, $job_contractTypes) !== FALSE) {
+          return true;
+        }
+      }
+      return false;
+      
+    }
     return true;
   }
 
   private function verify_job_keyword_match($jobID, $jobAlerBean) {
+    if ($jobAlerBean->keywords == "") { return TRUE; }
     return strpos(
       get_post($jobID)->post_content,
       $jobAlerBean->keywords
