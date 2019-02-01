@@ -204,7 +204,7 @@
     <h3><?= __("Job Alerts Settings", "tlc-job-alert") ?></h3>
 
     <form action="<?= current_location() . '&subpage=settings' ?>" method="POST">
-      <table class="form-table">
+      <table class="form-table settings-table">
         <tr>
           <td><?= __("Subscription Form Shortcode", "tlc-job-alert") ?></td>
           <td><b>[tlc_job_alert_form]</b></td>
