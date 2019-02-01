@@ -1,11 +1,11 @@
-<h2>There is a new job that meets your filters</h2>
+<h2>Nieuwe vacature gevonden</h2>
 
-<a href="<?= get_permalink($jobID) ?>">Go to job listing </a>
+<p>Er is een nieuwe vacature gevonden die aan je eisen voldoet.</p>
+<a href="<?= get_permalink($jobID) ?>">Ga naar de vacature</a>
 
 <p><?php 
   setup_postdata($jobID);
   echo get_the_excerpt($jobID);
 ?></p>
 
-<p>If you don't want to recieve those emails anymore, click this
-<a href="<?= get_permalink($jobID) ?>">unsubscribe</a> link.
+<p>Ik wil deze mails niet meer ontvangen - <a href="<?= get_permalink($jobID) ?>">uitschrijven</a>.</p>

@@ -44,54 +44,51 @@
         <span class="dashicons dashicons-no"></span>
       </button>
       <h3 v-if="subsFormContext == 'add'">
-      <?= __("Add a new subscription", "tlc-job-alert") ?>
+      <?= __("Nieuwe Job Alert aanmaken", "tlc-job-alert") ?>
     </h3>
     <h3 v-if="subsFormContext == 'edit'">
-      <?= __("Edit subscription with id", "tlc-job-alert") ?> {{subsFormData.id}}
+      <?= __("Bewerk Job Alert met ID", "tlc-job-alert") ?> {{subsFormData.id}}
     </h3>
     <form action="#" @submit.prevent="subsFormOnSubmit">
 
       <table class="form-table">
         <tr>
-          <td><label for="tlc-name"> <?= __("Name", "tlc-job-alert") ?> </label></td>
+          <td><label for="tlc-name"> <?= __("Naam", "tlc-job-alert") ?> </label></td>
           <td><input 
             type="text" 
             required
             id="tlc-name" 
             minLength="3" 
-            placeholder="<?= __('Name','tlc-job-alert') ?>" 
             :value="subsFormData.name"
             @input="setSubsFormData({field: 'name', value: $event.target.value})"
             class="regular-text"
           ></td>
         </tr>
         <tr>
-          <td><label for="tlc-email"> <?= __("E-mail Address", "tlc-job-alert") ?> </label></td>
+          <td><label for="tlc-email"> <?= __("E-mailadres", "tlc-job-alert") ?> </label></td>
           <td><input 
             type="email" 
             required 
             name="tlc-email" 
             id="tlc-email" 
-            placeholder="<?= __('E-mail Address','tlc-job-alert') ?>" 
             :value="subsFormData.email"
             @input="setSubsFormData({field: 'email', value: $event.target.value})"
             class="regular-text"
           ></td>
         </tr>
         <tr>
-          <td><label for="tlc-keyword"> <?= __("Keyword", "tlc-job-alert") ?> </label></td>
+          <td><label for="tlc-keyword"> <?= __("Trefwoord(en)", "tlc-job-alert") ?> </label></td>
           <td><input 
             type="text"  
             name="tlc-keyword" 
             id="tlc-keyword" 
-            placeholder="<?= __('Keyword','tlc-job-alert') ?>" 
             :value="subsFormData.keywords"
             @input="setSubsFormData({field: 'keywords', value: $event.target.value})"
             class="regular-text"  
           ></td>
         </tr>
         <tr v-if="$store.state.locations.length > 0">
-          <td><label for="tlc-location"> <?= __("Location", "tlc-job-alert") ?> </label></td>
+          <td><label for="tlc-location"> <?= __("Vestiging(en)", "tlc-job-alert") ?> </label></td>
           <td><select 
             id="tlc-location" 
             class="regular-text"
@@ -109,7 +106,7 @@
           </select></td>
         </tr>
         <tr v-if="$store.state.disciplines.length > 0" >
-          <td><label for="tlc-discipline"> <?= __("Disciplines", "tlc-job-alert") ?> </label></td>
+          <td><label for="tlc-discipline"> <?= __("Discipline(s)", "tlc-job-alert") ?> </label></td>
           <td><select            
             id="tlc-discipline" 
             class="regular-text"
@@ -145,7 +142,7 @@
           </select></td>
         </tr>
         <tr>
-          <td><label for="tlc-frequency"></label></td>
+          <td><label for="tlc-frequency">E-mail frequentie</label></td>
           <td><select 
             name="tlc-freuency" 
             id="tlc-frequency"
@@ -154,13 +151,13 @@
             @change="setSubsFormData({field: 'frequency', value: $event.target.value})"
           >
             <option value="direct"><?= __("Direct","tlc-job-alert") ?></option>
-            <option value="weekly"><?= __("Weekly","tlc-job-alert") ?></option>
-            <option value="two-weeks"><?= __("Each two weeks","tlc-job-alert") ?></option>
+            <option value="weekly"><?= __("Wekelijks","tlc-job-alert") ?></option>
+            <option value="two-weeks"><?= __("Iedere twee weken","tlc-job-alert") ?></option>
           </select></td>
         </tr>
       </table>
 
-      <input type="submit" value="<?= __('Submit','tlc-job-alert') ?>" class="button-primary">
+      <input type="submit" value="<?= __('Toevoegen','tlc-job-alert') ?>" class="button-primary">
     </form>
     </div>
     
@@ -168,7 +165,7 @@
 
   <h2 class="nav-tab-wrapper">
     <tab-button page-slug="subscriptions">
-      <?= __("Subscriptions", "tlc-job-alert") ?>
+      <?= __("Job Alert Database", "tlc-job-alert") ?>
     </tab-button>
     <tab-button page-slug="email-template">
       <?= __("E-mail Templates", "tlc-job-alert") ?>
@@ -176,7 +173,7 @@
   </h2>
 
   <div v-if="activePage == 'subscriptions'">
-    <h3><?= __("Subscriptions","tlc-job-alert") ?></h3>
+    <h3><?= __("Job Alert Database","tlc-job-alert") ?></h3>
     <div class="rel-position">
       <div class="loader" v-if="fetching">
         <div class="loader__icon"></div>
@@ -185,13 +182,13 @@
         <thead>
           <tr>
             <th><?= __("ID", "tlc-job-alert") ?></th>
-            <th><?= __("Name", "tlc-job-alert") ?></th>
-            <th><?= __("Email", "tlc-job-alert") ?></th>
-            <th><?= __("Keywords", "tlc-job-alert") ?></th>
-            <th><?= __("Locations", "tlc-job-alert") ?></th>
-            <th><?= __("Contract Type", "tlc-job-alert") ?></th>
-            <th><?= __("Discipline", "tlc-job-alert") ?></th>
-            <th><?= __("Frequency", "tlc-job-alert") ?></th>
+            <th><?= __("Naam", "tlc-job-alert") ?></th>
+            <th><?= __("E-mailadres", "tlc-job-alert") ?></th>
+            <th><?= __("Trefwoord(en)", "tlc-job-alert") ?></th>
+            <th><?= __("Vestiging(en)", "tlc-job-alert") ?></th>
+            <th><?= __("Contract Type(s)", "tlc-job-alert") ?></th>
+            <th><?= __("Discipline(s)", "tlc-job-alert") ?></th>
+            <th><?= __("Frequenctie", "tlc-job-alert") ?></th>
             <th></th>
             <th></th>
           </tr>
@@ -223,13 +220,13 @@
         <tfoot>
           <tr>
             <th><?= __("ID", "tlc-job-alert") ?></th>
-            <th><?= __("Name", "tlc-job-alert") ?></th>
-            <th><?= __("Email", "tlc-job-alert") ?></th>
-            <th><?= __("Keywords", "tlc-job-alert") ?></th>
-            <th><?= __("Locations", "tlc-job-alert") ?></th>
-            <th><?= __("Contract Type", "tlc-job-alert") ?></th>
-            <th><?= __("Discipline", "tlc-job-alert") ?></th>
-            <th><?= __("Frequency", "tlc-job-alert") ?></th>
+            <th><?= __("Naam", "tlc-job-alert") ?></th>
+            <th><?= __("E-mailadres", "tlc-job-alert") ?></th>
+            <th><?= __("Trefwoord(en)", "tlc-job-alert") ?></th>
+            <th><?= __("Vestiging(en)", "tlc-job-alert") ?></th>
+            <th><?= __("Contract Type(s)", "tlc-job-alert") ?></th>
+            <th><?= __("Discipline(s)", "tlc-job-alert") ?></th>
+            <th><?= __("Frequenctie", "tlc-job-alert") ?></th>
             <th></th>
             <th></th>
           </tr>
@@ -237,7 +234,7 @@
       </table>
     </div>
     <a class="button-primary margin-top-medium" href="#" @click.prevent="openAddSubsForm">
-      <?= __("Add Subscription", "tlc-job-allert") ?>
+      <?= __("Toevoegen", "tlc-job-allert") ?>
     </a>
   </div>
 

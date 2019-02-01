@@ -36,7 +36,7 @@
     R::store($job_watch);
     $GLOBALS['ev']->emit('new-subscription',array($job_watch));
     
-    echo '<div class="tlc-job-alert-success">Thank you for your subscription, we will keep you up to date with new job offers</div>';
+    echo '<div class="tlc-job-alert-success">Bedankt voor je aanmelding. Bij een nieuwe vacature die voldoet aan je eisen krijg je een mailtje.</div>';
   }
 
   // --DEFINE LOCATIONS
@@ -74,39 +74,37 @@
     .tlc-job-alert-success {
       background-color: #ee0a00;
 		color: #ffffff;
-		border-radius: 2px;
+		border-radius: 4px;
       padding: 20px 40px;
       margin-bottom: 10px;
     }
   </style>
 
 <h2>
-  <?= __("Job Alert Subscription Form","tlc-job-alert") ?>
+  <?= __("Nieuwe Job Alert aanmaken","tlc-job-alert") ?>
 </h2>
 
 <p>
-  <?= __("Form alert description", "tlc-job-alert") ?>
+  <?= __("Bepaal hieronder aan welke eisen een vacature moet voldoen waar je een melding van wil krijgen.", "tlc-job-alert") ?>
 </p>
-
-<p> <?= __("All form fields are required","tlc-job-alert") ?> </p>
 <form action="#" method="POST">
   <div>
-    <label for="tlc-name"> <?= __("Name", "tlc-job-alert") ?> </label>
-    <input type="text" required minLength="3" name="tlc-name" id="tlc-name" placeholder="<?= __('Name','tlc-job-alert') ?>" >
+    <label for="tlc-name"> <?= __("Naam", "tlc-job-alert") ?> </label>
+    <input type="text" required minLength="3" name="tlc-name" id="tlc-name">
   </div>
 
   <div>
-    <label for="tlc-email"> <?= __("E-mail Address", "tlc-job-alert") ?> </label>
-    <input type="email" required name="tlc-email" id="tlc-email" placeholder="<?= __('E-mail Address','tlc-job-alert') ?>" >
+    <label for="tlc-email"> <?= __("E-mailadres", "tlc-job-alert") ?> </label>
+    <input type="email" required name="tlc-email" id="tlc-email">
   </div>
 
   <div>
-    <label for="tlc-keyword"> <?= __("Keyword", "tlc-job-alert") ?> </label>
-    <input type="text" name="tlc-keyword" id="tlc-keyword" placeholder="<?= __('Keyword','tlc-job-alert') ?>" >
+    <label for="tlc-keyword"> <?= __("Trefwoord(en)", "tlc-job-alert") ?> </label>
+    <input type="text" name="tlc-keyword" id="tlc-keyword">
   </div>
 
   <div>
-    <label for="tlc-location"> <?= __("Location", "tlc-job-alert") ?> </label>
+    <label for="tlc-location"> <?= __("Vestiging(en)", "tlc-job-alert") ?> </label>
     <select id="tlc-location" name="tlc-location[]" multiple="multiple" class="tlc-select" style="width: 100%"
     <?= $locations ? "" : "disabled" ?> >
       <?php foreach($locations as $loc): ?>
@@ -116,7 +114,7 @@
   </div>
 
   <div>
-    <label for="tlc-discipline"> <?= __("Disciplines", "tlc-job-alert") ?> </label>
+    <label for="tlc-discipline"> <?= __("Discipline(s)", "tlc-job-alert") ?> </label>
     <select id="tlc-discipline" name="tlc-discipline[]" multiple="multiple" class="tlc-select" style="width: 100%"
     <?= $disciplines ? "" : "disabled" ?> >
       <?php foreach($disciplines as $discipline): ?>
@@ -136,21 +134,22 @@
   </div>
 
   <div>
-    <label for="tlc-frequency"></label>
+    <label for="tlc-frequency"> <?= __("Mail frequentie", "tlc-job-alert") ?> </label>
     <select name="tlc-frequency" id="tlc-frequency" class="tlc-select" style="width: 100%">
       <option value="direct" selected><?= __("Direct","tlc-job-alert") ?></option>
-      <option value="weekly"><?= __("Weekly","tlc-job-alert") ?></option>
-      <option value="two-weeks"><?= __("Each two weeks","tlc-job-alert") ?></option>
+      <option value="weekly"><?= __("Wekelijks","tlc-job-alert") ?></option>
+      <option value="two-weeks"><?= __("Iedere twee weken","tlc-job-alert") ?></option>
     </select>
   </div>
-
+<br />
   <div>
     <input type="checkbox" name="tlc-terms" id="tlc-terms" required>
-    <?= __("I have read and agree with", "tlc-job-alert") ?>&nbsp;
-    <a href="#"> <?= __("terms and conditions","tlc-job-alert") ?> </a>
+    <?= __("Ik heb de", "tlc-job-alert") ?>
+    <a href="/privacy-policy/" target="_blank"><?= __("Privacy Policy","tlc-job-alert") ?></a>&nbsp;
+    <?= __("gelezen en ga ermee akkoord.", "tlc-job-alert") ?>
   </div>
 
-  <button type="submit"><?= __("Subscribe","tlc-job-alert") ?></button>
+  <button type="submit" class="reuseButton___NzKpQ"><?= __("Aanmaken","tlc-job-alert") ?></button>
 </form>
 
 <script>

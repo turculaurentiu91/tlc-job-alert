@@ -10,8 +10,8 @@ class AdminPage {
   public function add_submenu() {
     \add_submenu_page(
       'edit.php?post_type=job_listing',
-      __("TLC Job Alert", "tlc-job-alert"),
-      __("TLC Job Alert", "tlc-job-alert"),
+      __("Job Alert", "tlc-job-alert"),
+      __("Job Alert", "tlc-job-alert"),
       'manage_options',
       'tlc-job-alert-admin',
       array($this, 'render_admin_page')

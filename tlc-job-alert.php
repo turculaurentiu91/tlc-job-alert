@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: TLC Job Alert
-Plugin URI: https://www.fiverr.com/laurentiuturcu
-Author URI: https://www.fiverr.com/laurentiuturcu
-Description: Alerts for WP Job Manager
+Plugin Name: Job Alert
+Plugin URI: https://www.hoppenbrouwerstechniek.nl
+Author URI: https://www.hoppenbrouwerstechniek.nl
+Description: Job Alerts for WP Job Manager
 Version: 1.0.0
-Author: Turcu Laurentiu
-Text Domain: tlc-job-alerts
+Author: Marnick van den Brand
+Text Domain: Job Alert
 */
 
 require 'vendor/autoload.php';

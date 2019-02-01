@@ -1,1 +1,1 @@
-<h2>New Subscription</h2>
+<h2>Nieuwe aanmelding</h2>
