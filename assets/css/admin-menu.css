@@ -67,6 +67,13 @@
   right: 0;
 }
 
+/* --SETTINGS TABLE */
+.settings-table tr td:first-child {
+  width: 25em;
+}
+
+
+
 /* --BUTTONS */
 .btn {
   border: 0;

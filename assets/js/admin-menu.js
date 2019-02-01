@@ -25,7 +25,7 @@ Vue.component('tab-button', {
 
 const store = new Vuex.Store({
   state: {
-    activePage: 'subscriptions',
+    activePage: subPage,
     fetching: true,
     subscriptions: [],
     subsFormContext: 'none',

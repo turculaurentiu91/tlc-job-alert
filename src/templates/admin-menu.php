@@ -25,6 +25,33 @@
       $contractTypes[] = $term->name;
     }
   } 
+
+  // --SAVE SETTINGS
+  if (isset($_POST['tlc-job-alert-form-page-id'])) {
+    update_option(
+      'tlc-job-alert-form-page-id',
+      $_POST['tlc-job-alert-form-page-id']
+    );
+  }
+
+  // --DEFINE THE SUB PAGE
+  $subpage = 'subscriptions';
+  if (isset($_GET['subpage'])) {
+    $subpage = $_GET['subpage'];
+  }
+
+  function current_location()
+  {
+      if (isset($_SERVER['HTTPS']) &&
+          ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+          isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+          $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+          $protocol = 'https://';
+      } else {
+          $protocol = 'http://';
+      }
+      return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  }
 ?>
 
 <script>
@@ -32,6 +59,7 @@
   const locations = JSON.parse('<?= json_encode($locations) ?>');
   const disciplines = JSON.parse('<?= json_encode($disciplines) ?>');
   const contractTypes = JSON.parse('<?= json_encode($contractTypes) ?>');
+  const subPage = "<?= $subpage ?>";
 </script>
 
 <div class="wrap" id="admin-app">
@@ -167,10 +195,33 @@
     <tab-button page-slug="subscriptions">
       <?= __("Job Alert Database", "tlc-job-alert") ?>
     </tab-button>
-    <tab-button page-slug="email-template">
-      <?= __("E-mail Templates", "tlc-job-alert") ?>
+    <tab-button page-slug="settings">
+      <?= __("Settings", "tlc-job-alert") ?>
     </tab-button>
   </h2>
+
+  <div v-if="activePage == 'settings'">
+    <h3><?= __("Job Alerts Settings", "tlc-job-alert") ?></h3>
+
+    <form action="<?= current_location() . '&subpage=settings' ?>" method="POST">
+      <table class="form-table">
+        <tr>
+          <td><?= __("Subscription Form Shortcode", "tlc-job-alert") ?></td>
+          <td><b>[tlc_job_alert_form]</b></td>
+        </tr>
+
+        <tr>
+          <td><?= __("Select the Subscription Form Page", "tlc-job-alert") ?></td>
+          <td><?php wp_dropdown_pages(array(
+            'class' => 'regular-text',
+            'name' => 'tlc-job-alert-form-page-id',
+            'selected' => get_option("tlc-job-alert-form-page-id")
+            )); ?></td>
+        </tr>
+      </table>
+      <input type="submit" class="button-primary" value="<?= __("Submit", "tlc-job-alert") ?>">
+    </form>
+  </div>
 
   <div v-if="activePage == 'subscriptions'">
     <h3><?= __("Job Alert Database","tlc-job-alert") ?></h3>
