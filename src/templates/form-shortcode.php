@@ -1,4 +1,17 @@
 <?php
+
+use TlcJobAlert\Helper;
+use \RedBeanPHP\R as R;
+  
+  // --UNSUBSCRIBE
+  if (isset($_GET['unsubscribe_token'])) {
+    $jobwatchBean = Helper::decode_unsubscribe_token($_GET['unsubscribe_token']);
+    R::trash($jobwatchBean);
+    echo '<div class="tlc-job-alert-success">
+        Je hebt je met succes afgemeld voor ons vacaturewaarschuwingssysteem.
+      </div>';
+  }
+
   // --DEFINE LOCATIONS
   $locTerms = get_terms(array('taxonomy' => 'job_listing_region', 'hide_empty' => false));
   $locations = null;
