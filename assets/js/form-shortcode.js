@@ -20,7 +20,7 @@ document.querySelector("#tlc-job-alert-form")
 
   axios.post(`${homeUrl}/wp-json/tlc/job-alert/`, body)
   .then(() => {
-    document.querySelector('.tlc-job-alert-success').style.display = 'block';
+    document.querySelector('#tlc-job-alert-success-post').style.display = 'block';
     btn.removeAttribute('disabled');
     btn.innerHTML = 'Aanmaken';
   })

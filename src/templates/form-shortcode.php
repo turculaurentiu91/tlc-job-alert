@@ -41,7 +41,7 @@
     }
   </style>
 
-<div class="tlc-job-alert-success" style="display: none;">
+<div class="tlc-job-alert-success" id="tlc-job-alert-success-post" style="display: none;">
   Bedankt voor je aanmelding. Bij een nieuwe vacature die voldoet aan je eisen krijg je een mailtje.
 </div>
 
