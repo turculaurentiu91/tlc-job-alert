@@ -1,5 +1,7 @@
 <?php namespace TlcJobAlert;
 
+use \RedBeanPHP\R as R;
+
 class Helper {
   public static function getTemplate($file, $data = array()) {
     extract($data);
@@ -20,5 +22,16 @@ class Helper {
     }
     $randomString[0] = "_";
     return $randomString;
+  }
+
+  public static function encode_unsubscribe_token($alertBean) {
+    return base64_encode(json_encode(array(
+      'email' => $alertBean->email,
+      'id' => $alertBean->ID
+    )));
+  }
+  
+  public static function decode_unsubscribe_token($token) {
+    return json_decode(base64_decode($token), true);
   }
 }
