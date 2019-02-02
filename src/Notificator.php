@@ -138,7 +138,7 @@ class Notificator {
       'template' => 'newJobEmail',
       'templateData' => array(
         'jobID' => $jobID,
-        'unsubscribe_link' => Helper::unsubscribe_link($jobAlerBean)
+        'unsubscribe_link' => Helper::unsubscribe_link($jobAlertBean)
       ),
     ));
   }
