@@ -32,6 +32,7 @@ class Helper {
   }
   
   public static function decode_unsubscribe_token($token) {
-    return json_decode(base64_decode($token), true);
+    $data = json_decode(base64_decode($token), true);
+    return R::load('jobwatch', $data['id']);
   }
 }
