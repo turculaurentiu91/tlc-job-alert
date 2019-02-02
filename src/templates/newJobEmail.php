@@ -8,4 +8,4 @@
   echo get_the_excerpt($jobID);
 ?></p>
 
-<p>Ik wil deze mails niet meer ontvangen - <a href="<?= get_permalink($jobID) ?>">uitschrijven</a>.</p>
+<p>Ik wil deze mails niet meer ontvangen - <a href="<?= $unsubscribe_link ?>">uitschrijven</a>.</p>

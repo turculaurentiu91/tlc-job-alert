@@ -136,7 +136,10 @@ class Notificator {
       'to' => $jobAlertBean->email,
       'subject' => __("Hoppenbrouwers Techniek Job Alert", "tlc-job-alert"),
       'template' => 'newJobEmail',
-      'templateData' => array('jobID' => $jobID,),
+      'templateData' => array(
+        'jobID' => $jobID,
+        'unsubscribe_link' => Helper::unsubscribe_link($jobAlerBean)
+      ),
     ));
   }
 
