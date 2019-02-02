@@ -35,4 +35,11 @@ class Helper {
     $data = json_decode(base64_decode($token), true);
     return R::load('jobwatch', $data['id']);
   }
+
+  public static function unsubscribe_link($bean) {
+    return 
+      get_permalink(get_option('tlc-job-alert-form-page-id')) 
+      . '?unsubscribe_token=' 
+      . self::encode_unsubscribe_token($bean);
+  }
 }
