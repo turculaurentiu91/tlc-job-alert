@@ -1,44 +1,4 @@
 <?php
-
-  use \RedBeanPHP\R as R;
-  
-  if (isset($_POST['tlc-name'])) {
-    $job_watch = R::dispense('jobwatch');
-    $job_watch->name = $_POST['tlc-name'];
-    $job_watch->email = $_POST['tlc-email'];
-    $job_watch->keywords = $_POST['tlc-keyword'];
-    $job_watch->frequency = $_POST['tlc-frequency'];
-
-    if (isset($_POST['tlc-location'])) {
-      foreach ($_POST['tlc-location'] as $key => $value) {
-       $location = R::dispense('joblocation');
-       $location->name = $value;
-       $job_watch->ownJoblocationList[] = $location; 
-      }
-    }
-
-    if (isset($_POST['tlc-discipline'])) {
-      foreach ($_POST['tlc-discipline'] as $key => $value) {
-       $discipline = R::dispense('jobdiscipline');
-       $discipline->name = $value;
-       $job_watch->ownJobdisciplineList[] = $discipline; 
-      }
-    }
-
-    if (isset($_POST['tlc-contract-type'])) {
-      foreach ($_POST['tlc-contract-type'] as $key => $value) {
-       $contracttype = R::dispense('jobcontracttype');
-       $contracttype->name = $value;
-       $job_watch->ownJobcontracttypeList[] = $contracttype; 
-      }
-    }
-
-    R::store($job_watch);
-    $GLOBALS['ev']->emit('new-subscription',array($job_watch));
-    
-    echo '<div class="tlc-job-alert-success">Bedankt voor je aanmelding. Bij een nieuwe vacature die voldoet aan je eisen krijg je een mailtje.</div>';
-  }
-
   // --DEFINE LOCATIONS
   $locTerms = get_terms(array('taxonomy' => 'job_listing_region', 'hide_empty' => false));
   $locations = null;
@@ -67,8 +27,9 @@
   }
 ?>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+ const homeUrl = "<?= home_url() ?>";
+</script>
 
 <style>
     .tlc-job-alert-success {
@@ -80,6 +41,10 @@
     }
   </style>
 
+<div class="tlc-job-alert-success" style="display: none;">
+  Bedankt voor je aanmelding. Bij een nieuwe vacature die voldoet aan je eisen krijg je een mailtje.
+</div>
+
 <h2>
   <?= __("Nieuwe Job Alert aanmaken","tlc-job-alert") ?>
 </h2>
@@ -87,7 +52,7 @@
 <p>
   <?= __("Bepaal hieronder aan welke eisen een vacature moet voldoen waar je een melding van wil krijgen.", "tlc-job-alert") ?>
 </p>
-<form action="#" method="POST">
+<form action="#" method="POST" id="tlc-job-alert-form">
   <div>
     <label for="tlc-name"> <?= __("Naam", "tlc-job-alert") ?> </label>
     <input type="text" required minLength="3" name="tlc-name" id="tlc-name">
@@ -149,11 +114,5 @@
     <?= __("gelezen en ga ermee akkoord.", "tlc-job-alert") ?>
   </div>
 
-  <button type="submit" class="reuseButton___NzKpQ"><?= __("Aanmaken","tlc-job-alert") ?></button>
+  <button type="submit" id="tlc-job-alert-form-btn" class="reuseButton___NzKpQ"><?= __("Aanmaken","tlc-job-alert") ?></button>
 </form>
-
-<script>
-jQuery(document).ready(function() {
-    jQuery('.tlc-select').select2();
-});
-</script>
