@@ -22,7 +22,41 @@ class Notificator {
   }
 
   public function cronjob() {
-    
+    global $post;
+    $jobWatches = R::findAll('jobwatch');
+
+    foreach ($jobWatches as $key => $jobwatch) {
+      if ($jobwatch->frequency == 'direct') {
+        continue;
+      }
+
+      $frequency = $jobwatch->frequency == 'weekly' ? 
+        Helper::daysToSec(7) : Helper::daysToSec(14);
+        
+      if (($jobwatch->last_notified + $frequency) < time() ) {
+        continue;
+      }
+
+      $matching_jobs = [];
+      $query = new \WP_Query(array(
+        'post_type' => 'job_listing',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+      ));
+
+      while ($query->have_posts()) {
+        $query->the_post();
+        if ($this->job_match($post->ID, $jobwatch)) {
+          $matching_jobs[] = $post->ID;
+        }
+      }
+
+      wp_reset_query();
+
+      if (count($matching_jobs) > 0) {
+        $this->notify_new_job($matching_jobs, $jobwatch);
+      }
+    }
   }
 
   public function set_html_email_content_type() {
@@ -146,7 +180,7 @@ class Notificator {
     $this->send_email(array(
       'to' => $jobAlertBean->email,
       'subject' => __("Hoppenbrouwers Techniek Job Alert", "tlc-job-alert"),
-      'template' => 'newJobEmail',
+      'template' => is_array($jobID) ? 'timedJobsEmail' : 'newJobEmail',
       'templateData' => array(
         'jobID' => $jobID,
         'unsubscribe_link' => Helper::unsubscribe_link($jobAlertBean)
