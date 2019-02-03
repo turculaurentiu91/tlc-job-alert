@@ -12,6 +12,10 @@ class Helper {
     return $content;
   }
 
+  public static function daysToSec($days) {
+    return $days * 24 * 60 * 60;
+  }
+
   public static function randString($length = 10)
   {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
