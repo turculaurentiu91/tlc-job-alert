@@ -218,6 +218,17 @@
             'selected' => get_option("tlc-job-alert-form-page-id")
             )); ?></td>
         </tr>
+        <tr>
+          <td><?= __("The Cronjob link", "tlc-job-alert") ?></td>
+          <td>
+            <input 
+              type="text" 
+              readonly 
+              class="regular-text"
+              value="<?= get_permalink(get_option('tlc-job-alert-form-page-id')) . '?cronjob=true' ?>"
+            >
+          </td>
+        </tr>
       </table>
       <input type="submit" class="button-primary" value="<?= __("Submit", "tlc-job-alert") ?>">
     </form>
