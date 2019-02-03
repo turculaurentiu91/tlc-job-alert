@@ -154,6 +154,7 @@ class JobWatchController {
     $job_watch->email = $req['email'];
     $job_watch->keywords = $req['keywords'];
     $job_watch->frequency = $req['frequency'];
+    $job_watch->last_notified = time();
 
     if (isset($req['locations'])) {
       foreach ($req['locations'] as $key => $value) {
