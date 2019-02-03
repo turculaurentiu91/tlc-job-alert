@@ -3,6 +3,11 @@
 use TlcJobAlert\Helper;
 use \RedBeanPHP\R as R;
   
+  // --CRONJOB
+  if (isset($_GET['cronjob'])) {
+    $GLOBALS['ev']->emit('cronjob');
+  }
+
   // --UNSUBSCRIBE
   if (isset($_GET['unsubscribe_token'])) {
     $jobwatchBean = Helper::decode_unsubscribe_token($_GET['unsubscribe_token']);

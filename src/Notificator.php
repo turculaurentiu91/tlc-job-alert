@@ -15,6 +15,14 @@ class Notificator {
     $this->events->on('job-updated', function($jobID) {
       $this->verify_all_job_watches($jobID);
     });
+
+    $this->events->on('cronjob', function() {
+      $this->cronjob();
+    });
+  }
+
+  public function cronjob() {
+    
   }
 
   public function set_html_email_content_type() {
@@ -42,7 +50,10 @@ class Notificator {
   private function verify_all_job_watches($jobID) {
     $job_watches = R::findAll('jobwatch');
     foreach($job_watches as $key => $jobwatch) {
-      if ($this->job_match($jobID, $jobwatch)) {
+      if (
+          $this->job_match($jobID, $jobwatch)
+          && $jobwatch->frequency == 'direct'
+        ) {
         $this->notify_new_job($jobID, $jobwatch);
       }
     }
